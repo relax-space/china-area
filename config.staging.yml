@@ -1,0 +1,16 @@
+database:
+  driver: mysql
+  connection: area_china_app:Eland123@tcp(10.173.208.142:3307)/area_china?charset=utf8&parseTime=True&loc=UTC
+  name: area-china-api
+  logger:
+    kafka:
+      brokers:
+        - 10.173.208.142:9092
+      topic: sqllog
+behaviorLog:
+  kafka:
+    brokers:
+      - 10.173.208.142:9092
+    topic: behaviorlog
+serviceName: area-china-api
+httpport: 8080
