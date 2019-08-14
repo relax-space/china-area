@@ -19,12 +19,26 @@ func InitDB(driver, connection string) (*xorm.Engine, error) {
 }
 
 func InitTable(db *xorm.Engine) error {
-	if err := db.Sync(new(Fruit)); err != nil {
+	if err := db.Sync(
+		new(Province),
+		new(City),
+		new(County),
+		new(Town),
+		new(Village),
+		new(Area),
+	); err != nil {
 		return err
 	}
 	return nil
 }
 
 func DropTables(db *xorm.Engine) error {
-	return db.DropTables(new(Fruit))
+	return db.DropTables(
+		new(Province),
+		new(City),
+		new(County),
+		new(Town),
+		new(Village),
+		new(Area),
+	)
 }
