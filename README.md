@@ -9,7 +9,7 @@ Provide China's provincial and municipal services
 
 ## References
 
-- [china_area](https://github.com/adyliu/china_area)
+- [china_regions](https://github.com/wecatch/china_regions)
 
 
 

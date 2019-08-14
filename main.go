@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"area-china-api/config"
 	"area-china-api/controllers"
 	"area-china-api/models"
+	"fmt"
 	"log"
 	"net/http"
 	"nomni/utils/validator"
@@ -42,15 +42,15 @@ func main() {
 	})
 
 	r := echoswagger.New(e, "docs", &echoswagger.Info{
-		Title:       "Sample Fruit API",
-		Description: "This is docs for fruit service",
+		Title:       "Areas API",
+		Description: "This is docs for area-china-api service",
 		Version:     "1.0.0",
 	})
 	r.AddSecurityAPIKey("Authorization", "JWT token", echoswagger.SecurityInHeader)
 	r.SetUI(echoswagger.UISetting{
 		HideTop: true,
 	})
-	controllers.FruitApiController{}.Init(r.Group("fruits", "v1/fruits"))
+	controllers.AreaApiController{}.Init(r.Group("areas", "v1/areas"))
 
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.Recover())
