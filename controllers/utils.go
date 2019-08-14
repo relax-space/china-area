@@ -30,3 +30,13 @@ func ReturnApiSucc(c echo.Context, status int, result interface{}) error {
 		Result:  result,
 	})
 }
+
+
+func ContainsString(source []string,pattern string) bool{
+	for _, s := range source {
+		if s ==pattern{
+			return true
+		}
+	}
+	return false
+}
