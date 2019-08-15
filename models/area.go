@@ -4,8 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/go-xorm/xorm"
-
 	"area-china-api/factory"
 )
 
@@ -39,45 +37,16 @@ type Area struct {
 	Lon        string `json:"lon"`
 }
 
-func (d *Area) Create(ctx context.Context) (int64, error) {
-	return factory.DB(ctx).Insert(d)
-}
-
-func (Area) GetById(ctx context.Context, id int64) (bool, Area, error) {
+func (Area) GetByUid(ctx context.Context, uid string) (bool, Area, error) {
 	area := Area{}
-	has, err := factory.DB(ctx).Where("id=?", id).Get(&area)
+	has, err := factory.DB(ctx).Where("uid=?", uid).Get(&area)
 	return has, area, err
 }
 
-func (Area) GetByCode(ctx context.Context, code string) (bool, Area, error) {
-	area := Area{}
-	has, err := factory.DB(ctx).Where("code=?", code).Get(&area)
-	return has, area, err
-}
-
-func (Area) GetAll(ctx context.Context, sortby, order []string, offset, limit int) (int64, []Area, error) {
-	queryBuilder := func() xorm.Interface {
-		q := factory.DB(ctx)
-		if err := setSortOrder(q, sortby, order); err != nil {
-			factory.Logger(ctx).Error(err)
-		}
-		return q
-	}
-	var items []Area
-	totalCount, err := queryBuilder().Limit(limit, offset).FindAndCount(&items)
-	if err != nil {
-		return totalCount, items, err
-	}
-	return totalCount, items, nil
-}
-
-func (d *Area) Update(ctx context.Context, id int64) (int64, error) {
-	return factory.DB(ctx).Where("id=?", id).Update(d)
-
-}
-
-func (Area) Delete(ctx context.Context, id int64) (int64, error) {
-	return factory.DB(ctx).Where("id=?", id).Delete(&Area{})
+func (Area) GetByParentId(ctx context.Context, pids ...string) ([]Area, error) {
+	var areas []Area
+	err := factory.DB(ctx).In("parent_id", pids).Find(&areas)
+	return areas, err
 }
 
 type Province struct {
