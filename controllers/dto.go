@@ -3,7 +3,7 @@ package controllers
 import "area-china-api/models"
 
 const (
-	DefaultMaxResultCount = 30
+	DefaultMaxResultCount = 50
 )
 
 type SearchInput struct {
@@ -19,5 +19,6 @@ func MoveArea(source models.Area) Nest {
 		Name:     source.WholeName,
 		ParentId: source.ParentId,
 		IsLeaf:   source.IsLeaf,
+		Level:    source.Level,
 	}
 }
