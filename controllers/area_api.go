@@ -32,6 +32,9 @@ func (d AreaApiController) Init(g echoswagger.ApiGroup) {
 func (d AreaApiController) GetByUid(c echo.Context) error {
 
 	uid := c.Param("uid")
+	if uid == "0" {
+		return SimpleApiController{}.GetProvince(c)
+	}
 	has, area, err := models.Area{}.GetByUid(c.Request().Context(), uid)
 	if err != nil {
 		return ReturnApiFail(c, http.StatusInternalServerError, api.NotFoundError(), err)
