@@ -51,6 +51,7 @@ func main() {
 		HideTop: true,
 	})
 	controllers.AreaApiController{}.Init(r.Group("areas", "v1/areas"))
+	controllers.SimpleApiController{}.Init(r.Group("simple", "v1"))
 
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.Recover())
