@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"area-china-api/models"
+	"errors"
 	"fmt"
 	"net/http"
 	"nomni/utils/api"
@@ -43,16 +44,15 @@ func (d AreaApiController) GetByUid(c echo.Context) error {
 
 	format := c.QueryParam("format")
 	switch format {
+	case "", "json":
+		return d.uidFrontJson(c, area, int(fixLevel))
 	case "list":
 		return d.uidFrontList(c, area, int(fixLevel))
-	case "json":
-		return d.uidFrontJson(c, area, int(fixLevel))
 	case "child_list":
-
 	default:
-		return ReturnApiSucc(c, http.StatusOK, MoveArea(area))
 	}
-	return ReturnApiSucc(c, http.StatusOK, MoveArea(area))
+	return ReturnApiFail(c, http.StatusBadRequest, api.NotFoundError(),
+		api.InvalidParamError("format", c.QueryParam("format"), errors.New("only support json,list and ''")))
 }
 
 func (d AreaApiController) uidFrontList(c echo.Context, area models.Area, fixLevel int) error {
